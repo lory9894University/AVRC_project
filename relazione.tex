@@ -25,12 +25,9 @@
 \section{appunti da scrivere ordinatamente nelle sezioni}
 %TODO: Citare
 "We show that social relationships can explain about 10\% to 30\% of all human movement, while periodic behavior explains 50\% to 70\%"
+In pratica il periodic behaviour fa si che l'assortatività sia più vicina a quella di un grafo random che a quella di una social net
 
-Clustering: Per il discorso della triadic clousure ci aspettiamo questo valore molto alto, ma nel nostra caso è "0,17" quindi le persone che partecipano allo studio non è detto che sono "amici" tra di loro.
-Es. io partecipo a questo studio ma i miei amici (per cui vale la triadic closure) è improbabile ch epartecipino.
 
-Largest component size: Il risultato ottenuto è molto alto (il 96\% dei nodi fa parte della gigant component), c'è un enorme gigant component e tutti gli altri sottografi sono formati da 3/4 nodi. ipotesi:potrebbero essere tutti vicini geograficamente oppure la "classe" dei nodi, oppure per via degli hub presenti oppure ci sono luoghi molto trafficati.
-Guardando i degree di tutti i nodi della solo largest component notiamo una presenza di super hub (1000+,800,ecc..)
 
 Degree correlation: tendenza a nodi con un certo degree a connettersi a nodi con un degree simili o uguale
 ci aspettiamo che sia assortativa perchè abbiamo una grossa gigant component e una core perifery structure
@@ -91,8 +88,46 @@ Analizzando tutte le componenti formtemente connesse ne individuiamo $547$, di s
   \hline
 \end{tabular}\\
 Il 96\% dei nodi fa parte della \lcc, tutte le altre componenti connesse sono formati da meno di 3/4 nodi. 
-Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglione nella sezione CITARE LA SEZIONE STUDIO DEI FOCI): Esiste un luogo geografico dove molte persone si sono incontrate (cioè tutti gli utenti vivono in una area geografica ridotta) oppure u
+Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglione nella sezione CITARE LA SEZIONE STUDIO DEI FOCI): Esiste un luogo geografico dove molte persone si sono incontrate (cioè molti utenti vivono in una area geografica ridotta) oppure esistono degli hub, degli utenti che si sposano molto ed incontrano molte persone.
 %TODO: ipotesi:potrebbero essere tutti vicini geograficamente oppure la "classe" dei nodi, oppure per via degli hub presenti oppure ci sono luoghi molto trafficati, plottare 
+
+\subsection{analisi dei Degrees}
+Avendo una componente connessa molto grande ed essendo questa una rete sociale ci aspettavamno una struttura \textit{core-perifery} quindi alcuni \textit{super-hubs} aventi un grado molto elevato ed una maggioranza dei nodi con un degree molto basso.
+Questo è confermato dalla media dei gradi di tutti i nodi del grafo: $7.35$.
+Un valore inaspettatamente basso ma che si spiega andando a verificare quanti nodi hanno pochi vicini, i nodi che hanno meno di 4 vicini sono $39586$ e quelli che ne hanno solo 1 sono $21157$, il $36\%$ dei nodi ha un solo collegamento.
+Viene identificata quindi una fortissima struttura \textit{core-perifery} dove i nodi che non fanno parte del \textit{core} sono quasi completamente esclusi.
+Andando ad effettuare il plot \ref{FIG:degree_dist_G} si evidenzia la distribuzione \textit{Heavy-tail} che ci aspettiamo dalle precedenti osservazioni, la maggior parte dei nodi ha un grado molto basso mentre sono molti pochi i nodi ad avere un grado maggiore di $10^2$.
+\begin{figure*}[!ht]
+\centering
+\makebox[\textwidth][c]{
+\includegraphics[width=0.85\textwidth]{degree_distribution.png}
+\includegraphics[width=0.85\textwidth]{nodes_degree.png}}
+\caption{Degree distribution of graph} \label{FIG:degree_dist_G}
+\end{figure*}
+Ci sono alcui dettagli notevoli (che abbiamo notato solo dopo analisi di assortatività), in primis il numero hub è molto basso, ci sono 7 nodi che possiamo realmente definire hub (cioè nodi il cui grado è >> del grado di tutti gli altri), il secondo dettaglio è che i pochi hub hanno comunque pochi vicini.
+Il massimo degree calcolato è $1134$ che è lo $0.5\%$ di tutti i link, ciò potrebbe essere dovuto al fatto che il grafo è poco connesso, ma gli studi effettuati sulla dimensione della \lcc lo escludono, la conclusione è che in questa rete non ci sono hub molto grandi.
+%TODO: è una power-law?
+\subsection{Clustering coefficient e Degree correlation}
+Queste due differenti analisi sono inserite nella stessa sezione in quanto hanno fornito risultati inaspettati, che hanno richiesto un'analisi più approfondita prima di essere spiegabili.
+Il clusering coefficient è risultato essere $0.172$, un valore molto basso che indicava una scarsa tendenza dei nodi a rispettare la \textit{triadic clousure}.
+Essendo questa una rete sociale ci aspettavamo un valore molto alto, ad indicare che se un nodo $a$ è collegato al nodo $b$ ed un nodo $c$ è collegato al nodo $a$ è molto probabile che ci sia un collegamento tra $c$ e $b$.
+Alla luce di ciò abbiamo calcolato quanti triangoli del tipo $a - b - c$ fossero presenti nel grafo e ne abbiamo individuati $494728$ di cui solo $19685$ chiusi, il $3.98\%$.
+La prima ipotesi per giustificare questo numero è stata la possibilità che il grafo rappresentasse un sottografo di una rete sociale, in termini semplici non è detto che le persone che un individuo frequenta online siano poi le persone con cui si incontra, è possibile che gli utenti di \textit{Brighthike} comunicassero senza incontrarsi di frequente.
+Ma questa ipotesi non è molto sensata e soprattutto non è supportata da nessun dato, anzi per il fenomeno dell'affiliazione persone con \textit{foci} in comune dovrebbero tendere a formare legami sociali (il social Brighthike è un esempio di \textit{focus}).
+
+L'ipotesi corretta è derivata dallo studio dell'assortatività e dalla lettura del paper orginale.\\
+Anche l'assortatività riporta una misura inaspettata, avendo questa un valore pari a $0.0108$ identifica che la rete non è assortativa come ci saremmo aspettati da una rete sociale, bensì molto più simile ad un random network.
+I nodi quindi non tendono a rispettare alcun criterio di assortatività, non c'è alcuna relazione tra la presenza di un arco e il grado dei nodi ai capi dello stesso.
+La spiegazione di ciò la si può trovare leggendo il paper orginale: 
+"We show that social relationships can explain about 10\% to 30\% of all human movement, while periodic behavior explains 50\% to 70\%"\\ %TODO: bibliografia e citare
+Quindi questo dataset non rappresenta perfettamente una rete sociale, pur mantenendo molte delle caretteristiche che ne definiscono una.
+Essendo gli incontri tra utenti tra il 50\% ed il 70\% dovuti alla "routine" (e quindi non rappresentanti una rete sociale sottostante) molti di questi mettono randomicamente in relazioni nodi che in realtà non hanno alcun legame.
+
+\subsection{Analisi delle comunità}
+Posto che la rete somiglia più ad un network randomico che ad una rete sociale, come è possibile che molte caratteristiche delle reti sociali siano rispettate? (distanze, componenti fortemente connesse, Heavy-tail distribution).\\
+Per rispondere abbiamo analizzato le comunità.
+
+\subsection{analisi di affiliazione}
 \section{Simulazione dinamica}
 \end{document}
 
