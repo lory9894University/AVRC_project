@@ -23,21 +23,8 @@
 \tableofcontents
 
 \section{appunti da scrivere ordinatamente nelle sezioni}
-%TODO: Citare
-"We show that social relationships can explain about 10\% to 30\% of all human movement, while periodic behavior explains 50\% to 70\%"
-In pratica il periodic behaviour fa si che l'assortatività sia più vicina a quella di un grafo random che a quella di una social net
-
-
-
 Degree correlation: tendenza a nodi con un certo degree a connettersi a nodi con un degree simili o uguale
 ci aspettiamo che sia assortativa perchè abbiamo una grossa gigant component e una core perifery structure
-
-le cose delle super hub era sbagliata , potrebbero essere delle comunities. degree di 1000 su 58000 nodi non è alto
-
-l'assortativity è neutra perchè ci sono comunities
-
-
-potrebbe essere bilanciata dagli altri nodi con degree basso
 
 
 Comunities:set di nodi molto interconnessi
@@ -115,19 +102,47 @@ Alla luce di ciò abbiamo calcolato quanti triangoli del tipo $a - b - c$ fosser
 La prima ipotesi per giustificare questo numero è stata la possibilità che il grafo rappresentasse un sottografo di una rete sociale, in termini semplici non è detto che le persone che un individuo frequenta online siano poi le persone con cui si incontra, è possibile che gli utenti di \textit{Brighthike} comunicassero senza incontrarsi di frequente.
 Ma questa ipotesi non è molto sensata e soprattutto non è supportata da nessun dato, anzi per il fenomeno dell'affiliazione persone con \textit{foci} in comune dovrebbero tendere a formare legami sociali (il social Brighthike è un esempio di \textit{focus}).
 
-L'ipotesi corretta è derivata dallo studio dell'assortatività e dalla lettura del paper orginale.\\
+
+L'ipotesi corretta, derivata dallo studio dell'assortatività e confermata dalla lettura del paper orginale, è che gli incontri tra individui non siano una forte rappresentazione della rete sociale sottostante.\\
 Anche l'assortatività riporta una misura inaspettata, avendo questa un valore pari a $0.0108$ identifica che la rete non è assortativa come ci saremmo aspettati da una rete sociale, bensì molto più simile ad un random network.
 I nodi quindi non tendono a rispettare alcun criterio di assortatività, non c'è alcuna relazione tra la presenza di un arco e il grado dei nodi ai capi dello stesso.
 La spiegazione di ciò la si può trovare leggendo il paper orginale: 
 "We show that social relationships can explain about 10\% to 30\% of all human movement, while periodic behavior explains 50\% to 70\%"\\ %TODO: bibliografia e citare
 Quindi questo dataset non rappresenta perfettamente una rete sociale, pur mantenendo molte delle caretteristiche che ne definiscono una.
-Essendo gli incontri tra utenti tra il 50\% ed il 70\% dovuti alla "routine" (e quindi non rappresentanti una rete sociale sottostante) molti di questi mettono randomicamente in relazioni nodi che in realtà non hanno alcun legame.
+Essendo gli incontri tra utenti tra il 50\% ed il 70\% dovuti alla "routine" (e quindi non rappresentanti una rete sociale sottostante) molti di questi mettono randomicamente in relazione nodi che in realtà non hanno alcun legame.
 
 \subsection{Analisi delle comunità}
-Posto che la rete somiglia più ad un network randomico che ad una rete sociale, come è possibile che molte caratteristiche delle reti sociali siano rispettate? (distanze, componenti fortemente connesse, Heavy-tail distribution).\\
-Per rispondere abbiamo analizzato le comunità.
+Posto che la rete somiglia più ad un network randomico che ad una rete sociale, come è possibile che molte caratteristiche ? (brevi distanze, componenti fortemente connesse, Heavy-tail distribution).\\
+Per rispondere abbiamo analizzato le comunità, in particolare abbiamo considerato solo la \lcc, dato che già sappiamo che la maggior parte dei nodi non appartenenti alla \textit{lcc} compongono \textit{clique} da 2-4 nodi disconnesse dal resto del grafo.
+É stato rilevato un numero di comunità variabile tra le $150 \text{ e le } 220$, la maggior parte di piccole dimensioni (più dei 3/4 avente una dimensione massima di 100 nodi), il valore non è fisso in quanto per il calcolo è stato usato l'algoritmo di $Louvain$ che ha una assegnazione iniziale randomica.
+Come mostrato in figura \ref{FIG:communities_sizes} è presente una distribuzione \textit{Heavy-tail} delle dimensioni della comunità.
+In sintesi abbiamo poche comunità di nodi, alcune di queste molto grandi.
+All'interno di queste comunità ci sono molti collegamenti, un \textit{average shortest path} molto breve che permette di attraversarle molto in fretta, e le comunità sono collegate tra loro seguendo una struttura tendente ad essere \textit{Hubs-and-spoke}, cioè esistono delle grandi comunità a cui sono connessi molte altre comunità più piccole. \\
+\begin{figure*}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{community_size.png}
+\caption{size of communities} \label{FIG:communities_size}
+\end{figure*}\\
+Tutte queste caratteristiche si osservano bene andando a costruire un grafo con le comunità come nodi.
+Calcolando su questo grafo la degree correlation otteniamo un valore pari a $-0.533$ che tende ancora di più a $-1$ se consideriamo tutto il grafo e non solo la \lcc ed andando a effettuare un plot del nuovo grafo notiamo subito la struttura \textit{Hubs-and-spoke}
+In figura \ref{FIG:communities_plot} sono rappresentate le comunità, le etichette degli archi identificano le comunità in ordine decrescente di dimensione (0 la più grande) e il layout è basanto sull'algoritmo \textit{spring} di Fruchterman-Reingold, cioè più un nodo è distante dall'altro minori archi ci sono che collegano le due comunità.
 
+\begin{figure*}[!ht]
+\centering
+\includegraphics[width=1\textwidth]{cummunity_plot.png}
+\caption{Plotting with communities as node} \label{FIG:communities_plot}
+\end{figure*}
+
+
+La prima cosa che si nota è che il \textit{Degree} di una comunità è proporzionale alla sua dimensione, %TODO:aggiungere altro.
+
+\subsection{analisi di centralità}
+%C'è poco da dire
 \subsection{analisi di affiliazione}
+L'ultima interessante analisi svolta è stata l'analisi di affiliazione, essendo un dataset relativo a luoghi frequentati da individui l' analisi più interessante è quella dei luoghi.
+I luoghi possono infatti essere visti come dei \textit{foci} ed un'analisi dei luoghi più frequentati e dei nodi che frequentano tali luoghi può fornire risultati interessanti.
+Il primo risultato interessante ottenuto è che ci sono dei luoghi dove moltissime persone si sono incontrate, il luogo più frequentato ha avuto $2606$ distinti visitatori, il $9\%$ di tutti i nodi. Il 30\% degli individui ha visitato almeno uno dei 4 luoghi più frequentati, si nota che zone corrispondono alle zone più popolose (il luogo dove si sono incontrate più persone ad esempio è il centro di Denver).
+%TODO: che altre analisi si possono fare?
 \section{Simulazione dinamica}
 \end{document}
 
