@@ -2,6 +2,7 @@ import json
 import matplotlib.pyplot as plt
 import pandas as pd
 import networkx as nx
+import numpy as np
 import EoN
 
 
@@ -18,20 +19,19 @@ def parseJson(path):
 
 if __name__ == '__main__':
     dataset_path = "reducer/all_datas.json"
-    # G = parseDataset("dataset.txt")
-    G = parseJson(dataset_path)
+    G = parseDataset("dataset.txt")
+    # G = parseJson(dataset_path)
 
-    tmax = 20
+    best_spreader = [d[0] for d in sorted(G.degree(), key=lambda x: x[1], reverse=True)]
+    # list of nodes with highest degree, best spreader
     iterations = 5  # run x simulations
-    tau = 0.7  # transmission rate
-    gamma = 1.0  # recovery rate
-    rho = 0.001  # random fraction initially infected
+    tau = 0.056  # transmission rate
+    gamma = 0.045  # recovery rate
+    rho = 0.0001  # random fraction initially infected
 
-    for counter in range(iterations):  # run simulations
-        t, S, I, R = EoN.fast_SIR(G, tau, gamma, rho=rho, tmax=tmax)
-        if counter == 0:
-            plt.plot(t, I, color='k', alpha=0.3, label='Simulation')
-        plt.plot(t, I, color='k', alpha=0.3)
+    # for counter in range(iterations):  # run simulations
+    #    t, S, I, R = EoN.fast_SIR(G, tau, gamma, rho=rho, tmax=561)
+    #    plt.plot(t, I, color=np.random.rand(3,) , alpha=0.9, label=f'{counter} run')
 
     # Now compare with ODE predictions.  Read in the degree distribution of G
     # and use rho to initialize the various model equations.
@@ -43,4 +43,4 @@ if __name__ == '__main__':
 
     plt.legend()
     plt.show()
-    #plt.savefig('SIR_BA_model_vs_sim.png')
+    # plt.savefig('SIR_BA_model_vs_sim.png')
