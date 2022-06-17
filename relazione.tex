@@ -22,6 +22,7 @@
 
 \tableofcontents
 
+
 \section{appunti da scrivere ordinatamente nelle sezioni}
 Degree correlation: tendenza a nodi con un certo degree a connettersi a nodi con un degree simili o uguale
 ci aspettiamo che sia assortativa perchè abbiamo una grossa gigant component e una core perifery structure
@@ -33,7 +34,7 @@ abbiamo 218 comunità (tante) quindi non abbiamo dei super hub, ne abbiamo solo 
 
 \section{Analisi}
 \subsection{Dataset}
-Il dataset che abbiamo analizzato è il seguente: \href{http://snap.stanford.edu/data/loc-brightkite.html}{ Friendship and Mobility: User Movement in Location-Based Social Networks }(E. Cho, S. A. Myers, J. Leskovec.).\\
+Il dataset che abbiamo analizzato è il seguente: \textit{ Friendship and Mobility: User Movement in Location-Based Social Networks }\cite{original_paper}.\\
 Contiene dati anonimi estratti dal social-network \textit{Brighthike}, un social basato sulla posizione.
 In qualsiasi momento un utente ha la possibilità di condividere la sua posizione e cercare altre persone geograficamente vicine che fanno uso di quel social, c'è anche la possibilità di segnalare che si è stati in un posto preciso ad una data ora.
 Il dataset preso in esame è una restrizione di questi dati secondo 3 filtri:
@@ -79,6 +80,7 @@ Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibi
 %TODO: ipotesi:potrebbero essere tutti vicini geograficamente oppure la "classe" dei nodi, oppure per via degli hub presenti oppure ci sono luoghi molto trafficati, plottare 
 
 \subsection{analisi dei Degrees}
+\label{SEC:Degree}
 Avendo una componente connessa molto grande ed essendo questa una rete sociale ci aspettavamno una struttura \textit{core-perifery} quindi alcuni \textit{super-hubs} aventi un grado molto elevato ed una maggioranza dei nodi con un degree molto basso.
 Questo è confermato dalla media dei gradi di tutti i nodi del grafo: $7.35$.
 Un valore inaspettatamente basso ma che si spiega andando a verificare quanti nodi hanno pochi vicini, i nodi che hanno meno di 4 vicini sono $39586$ e quelli che ne hanno solo 1 sono $21157$, il $36\%$ dei nodi ha un solo collegamento.
@@ -107,7 +109,7 @@ L'ipotesi corretta, derivata dallo studio dell'assortatività e confermata dalla
 Anche l'assortatività riporta una misura inaspettata, avendo questa un valore pari a $0.0108$ identifica che la rete non è assortativa come ci saremmo aspettati da una rete sociale, bensì molto più simile ad un random network.
 I nodi quindi non tendono a rispettare alcun criterio di assortatività, non c'è alcuna relazione tra la presenza di un arco e il grado dei nodi ai capi dello stesso.
 La spiegazione di ciò la si può trovare leggendo il paper orginale: 
-"We show that social relationships can explain about 10\% to 30\% of all human movement, while periodic behavior explains 50\% to 70\%"\\ %TODO: bibliografia e citare
+"We show that social relationships can explain about 10\% to 30\% of all human movement, while periodic behavior explains 50\% to 70\%"\cite{original_paper}\\
 Quindi questo dataset non rappresenta perfettamente una rete sociale, pur mantenendo molte delle caretteristiche che ne definiscono una.
 Essendo gli incontri tra utenti tra il 50\% ed il 70\% dovuti alla "routine" (e quindi non rappresentanti una rete sociale sottostante) molti di questi mettono randomicamente in relazione nodi che in realtà non hanno alcun legame.
 
@@ -115,26 +117,25 @@ Essendo gli incontri tra utenti tra il 50\% ed il 70\% dovuti alla "routine" (e 
 Posto che la rete somiglia più ad un network randomico che ad una rete sociale, come è possibile che molte caratteristiche ? (brevi distanze, componenti fortemente connesse, Heavy-tail distribution).\\
 Per rispondere abbiamo analizzato le comunità, in particolare abbiamo considerato solo la \lcc, dato che già sappiamo che la maggior parte dei nodi non appartenenti alla \textit{lcc} compongono \textit{clique} da 2-4 nodi disconnesse dal resto del grafo.
 É stato rilevato un numero di comunità variabile tra le $150 \text{ e le } 220$, la maggior parte di piccole dimensioni (più dei 3/4 avente una dimensione massima di 100 nodi), il valore non è fisso in quanto per il calcolo è stato usato l'algoritmo di $Louvain$ che ha una assegnazione iniziale randomica.
-Come mostrato in figura \ref{FIG:communities_sizes} è presente una distribuzione \textit{Heavy-tail} delle dimensioni della comunità.
+ome mostrato in figura \ref{FIG:communities_sizes} è presente una distribuzione \textit{Heavy-tail} delle dimensioni della comunità.
 In sintesi abbiamo poche comunità di nodi, alcune di queste molto grandi.
 All'interno di queste comunità ci sono molti collegamenti, un \textit{average shortest path} molto breve che permette di attraversarle molto in fretta, e le comunità sono collegate tra loro seguendo una struttura tendente ad essere \textit{Hubs-and-spoke}, cioè esistono delle grandi comunità a cui sono connessi molte altre comunità più piccole. \\
 \begin{figure*}[!ht]
 \centering
 \includegraphics[width=0.7\textwidth]{community_size.png}
-\caption{size of communities} \label{FIG:communities_size}
-\end{figure*}\\
+\caption{size of communities} \label{FIG:communities_sizes}
+\end{figure*}
+\newpage
 Tutte queste caratteristiche si osservano bene andando a costruire un grafo con le comunità come nodi.
 Calcolando su questo grafo la degree correlation otteniamo un valore pari a $-0.533$ che tende ancora di più a $-1$ se consideriamo tutto il grafo e non solo la \lcc ed andando a effettuare un plot del nuovo grafo notiamo subito la struttura \textit{Hubs-and-spoke}
-In figura \ref{FIG:communities_plot} sono rappresentate le comunità, le etichette degli archi identificano le comunità in ordine decrescente di dimensione (0 la più grande) e il layout è basanto sull'algoritmo \textit{spring} di Fruchterman-Reingold, cioè più un nodo è distante dall'altro minori archi ci sono che collegano le due comunità.
-
+In figura \ref{FIG:communities_plot} sono rappresentate le comunità, le etichette degli archi identificano le comunità in ordine decrescente di dimensione (0 la più grande) e il layout è basanto sull'algoritmo \textit{spring} di Fruchterman-Reingold, cioè più un nodo è distante dall'altro minori archi ci sono che collegano le due comunità.\\
+\newpage
 \begin{figure*}[!ht]
 \centering
 \includegraphics[width=1\textwidth]{cummunity_plot.png}
 \caption{Plotting with communities as node} \label{FIG:communities_plot}
 \end{figure*}
-
-
-La prima cosa che si nota è che il \textit{Degree} di una comunità è proporzionale alla sua dimensione, %TODO:aggiungere altro.
+La prima cosa che si nota è che il \textit{Degree} di una comunità è proporzionale alla sua dimensione, le comunità molto grandi sono collegate a molte altre comunità (naturalmente, dato che hanno molti più componenti) %TODO:aggiungere altro.
 
 \subsection{analisi di centralità}
 %C'è poco da dire
@@ -144,5 +145,64 @@ I luoghi possono infatti essere visti come dei \textit{foci} ed un'analisi dei l
 Il primo risultato interessante ottenuto è che ci sono dei luoghi dove moltissime persone si sono incontrate, il luogo più frequentato ha avuto $2606$ distinti visitatori, il $9\%$ di tutti i nodi. Il 30\% degli individui ha visitato almeno uno dei 4 luoghi più frequentati, si nota che zone corrispondono alle zone più popolose (il luogo dove si sono incontrate più persone ad esempio è il centro di Denver).
 %TODO: che altre analisi si possono fare?
 \section{Simulazione dinamica}
+Avendo tra le mani un dataset che riportava spostamenti ed incontri tra individui l'analisi dinamica più interessante (anche se purtroppo la più ovvia) è quella di lanciare una simulazione epidemica.
+È stato utilizzato un modello SIR con i seguenti parametri:
+\begin{align*}
+\beta = 0.056\\
+\gamma = 0.045\\
+\end{align*}
+Questi valori non sono casuali bensì sono valori ottenuti dallo studio del COVID-19, in particolare estrapolati dallo studio \textit{Estimation of SIR model’s parameters of COVID-19 in Algeria} \cite{covid}.
+È stato scelto proprio il COVID-19 perchè è molto attuale; il lato negativo di questa scelta è che è scontata e poco creativa, quello positivo è che ci sono moltissimi studi in merito e moltissimi dati.
+
+
+Sono state lanciate diverse simulazioni epidemiche andando a variare il numero di "pazienti 0" e le loro caratteristiche.
+In modo da studiare come la rete interagisce con la diffusione, non sono mai stati modificati i valori di $\beta e \gamma$.\\
+
+\subsection{pochi infetti, casuali}
+La prima serie di run è stata effettuata con pochi infetti iniziali, 5 individui, il grafico in figura \ref{FIG:generic} mostra l'andamento di $S, R, I$ in relazione al tempo.
+La media delle persone infettate è stata di $32.578$ individui che in un momento o in un'altro hanno contratto l'infezione nell'arco di 250 giorni, il 55\% della popolazione.\\
+\begin{figure*}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{generic_run.png}
+\caption{Generic contagion} \label{FIG:generic}
+\end{figure*}
+\newpage
+
+Per dare un po' di contesto si fa notare che in 3 anni il numero di casi di COVID-19 in italia ha coinvolto il 33\% della popolazione.
+Questo valore molto alto è dovuto in parte ai parametri impostati (ad esempio $\gamma$ molto basso) ma soprattutto alla forte connessione nel grafo.
+Infatti una stima di $R_0$ fornisce un valore elevatissimo, pari a $34.367$, questo a causa dell'elevato numero di vicini che alcuni nodi hanno.
+Se è infatti vero che (come affermato in sezione \ref{SEC:Degree}) la maggior parte dei nodi ha pochi vicini è anche vero che ci sono comunque tanti nodi aventi $Degree$ elevati.
+Perciò si verifica rapidamente un effetto cascata che però notiamo si arresta prima di aver infettato tutti i nodi del grafo, infatti in media $25650$ individui non sono mai stati infettati.
+Questo si spiega di nuovo ragionando sui $Degree$ dei nodi, come detto in precendenza ci sono moltissimi nodi con pochi vicini.
+Perdipiù dall'analisi del grafo abbiamo individuato un forte numero di comunità molto separate tra loro, la nostra ipotesi è che si verifichi un fenomeno simile a quello del $\lambda - clustering$ che impedisce all'epidemia di penetrare in alcune comunità rendendo difficoltosa l'infezione di tutto il network.
+
+\subsection{ variazione numero e tipo di infetti iniziali}
+Per analizzare il comportamento dell'infezione sulla rete abbiamo provato a studiare i diversi "pazienti 0" da cui l'infezione può partire.
+
+\subsection{transmission rate}
+$R_0 = 34$ è un valore molto alto, andando ad abbassare questo valore (ad esempio modificando il parametro $\beta$) si ottiene una curva epidemica più moderata.
+Il grafico in figura \ref{FIG:transmission_rate_06_1_random} mostra la diffusione impostando $\beta = 0.006$ ed ottenendo $R_0$ vicino a 1
+\begin{figure*}[!ht]
+\centering
+\includegraphics[width=0.7\textwidth]{transmission_rate_06_1_random.png}
+\caption{Lower $R_0$} \label{FIG:transmission_rate_06_1_random}
+\end{figure*}
+
+
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{original_paper}
+E. Cho, S. A. Myers, J. Leskovec (2011) \emph{Friendship and Mobility: User Movement in Location-Based Social Networks}\\
+CM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD)\\
+\href{http://snap.stanford.edu/data/loc-brightkite.html}{Link to dataset}\\
+\href{https://cs.stanford.edu/people/jure/pubs/mobile-kdd11.pdf}{Link to paper}
+
+\bibitem{covid}
+Mohamed Lounis and Dilip Kumar Bagal (2020) \emph{Estimation of SIR model’s parameters of COVID-19 in Algeria}\\
+Bull Natl Res Cent PMCID: PMC7570398
+\href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7570398/}{Link to study}
+\end{thebibliography}
+
 \end{document}
 

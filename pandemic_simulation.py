@@ -27,12 +27,16 @@ if __name__ == '__main__':
     iterations = 5  # run x simulations
     tau = 0.056  # transmission rate
     gamma = 0.045  # recovery rate
-    rho = 0.0001  # random fraction initially infected
+    rho = 0.01  # random fraction initially infected
 
-    # for counter in range(iterations):  # run simulations
+    #for counter in range(iterations):  # run simulations
     #    t, S, I, R = EoN.fast_SIR(G, tau, gamma, rho=rho, tmax=561)
     #    plt.plot(t, I, color=np.random.rand(3,) , alpha=0.9, label=f'{counter} run')
 
+    t, S, I, R = EoN.fast_SIR(G, tau, gamma, rho=rho, tmax=561)
+    plt.plot(t, I, color='red' , alpha=0.9, label=f'infected')
+    plt.plot(t, S, color='grey' , alpha=0.9, label=f'susceptible')
+    plt.plot(t, R, color='green' , alpha=0.9, label=f'recovered')
     # Now compare with ODE predictions.  Read in the degree distribution of G
     # and use rho to initialize the various model equations.
     # There are versions of these functions that allow you to specify the
