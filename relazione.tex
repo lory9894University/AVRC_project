@@ -5,6 +5,7 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{float}
+\usepackage{subfig}
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 \usepackage{graphicx} 
@@ -22,15 +23,6 @@
 
 \tableofcontents
 
-
-\section{appunti da scrivere ordinatamente nelle sezioni}
-Degree correlation: tendenza a nodi con un certo degree a connettersi a nodi con un degree simili o uguale
-ci aspettiamo che sia assortativa perchè abbiamo una grossa gigant component e una core perifery structure
-
-
-Comunities:set di nodi molto interconnessi
-ci aspettiamo tante comunità
-abbiamo 218 comunità (tante) quindi non abbiamo dei super hub, ne abbiamo solo 2
 
 \section{Analisi}
 \subsection{Dataset}
@@ -77,7 +69,6 @@ Analizzando tutte le componenti formtemente connesse ne individuiamo $547$, di s
 \end{tabular}\\
 Il 96\% dei nodi fa parte della \lcc, tutte le altre componenti connesse sono formati da meno di 3/4 nodi. 
 Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglione nella sezione CITARE LA SEZIONE STUDIO DEI FOCI): Esiste un luogo geografico dove molte persone si sono incontrate (cioè molti utenti vivono in una area geografica ridotta) oppure esistono degli hub, degli utenti che si sposano molto ed incontrano molte persone.
-%TODO: ipotesi:potrebbero essere tutti vicini geograficamente oppure la "classe" dei nodi, oppure per via degli hub presenti oppure ci sono luoghi molto trafficati, plottare 
 
 \subsection{analisi dei Degrees}
 \label{SEC:Degree}
@@ -135,14 +126,60 @@ In figura \ref{FIG:communities_plot} sono rappresentate le comunità, le etichet
 \includegraphics[width=1\textwidth]{cummunity_plot.png}
 \caption{Plotting with communities as node} \label{FIG:communities_plot}
 \end{figure*}
-La prima cosa che si nota è che il \textit{Degree} di una comunità è proporzionale alla sua dimensione, le comunità molto grandi sono collegate a molte altre comunità (naturalmente, dato che hanno molti più componenti) %TODO:aggiungere altro.
-
+La prima cosa che si nota è che il \textit{Degree} di una comunità è proporzionale alla sua dimensione, le comunità molto grandi sono collegate a molte altre comunità (naturalmente, dato che hanno molti più componenti).\\
+In secondo luogo notiamo che le comunità tendono ad essere distanti tra loro (a parte un grosso cluster in centro) ad indicare che ci sono poche connessioni inter-comunitarie.
+In conclusione possiamo affermare di avere molte comunità, molto intraconnesse e poco interconnesse, c'è poi un ristretto gruppo di comunità dove l'interconnessione è molto elevata..
 \subsection{analisi di centralità}
-%C'è poco da dire
+\label{SEC:centralità}
+In vista delle analisi dinamiche abbiamo appurato che sarebbe stata utile ed interessante una lista dei nodi aventi maggior \textit{betweennes}.
+Il problema è che calcolare accuratamente la betweennes di un grafo con $58228$ è computazionalmente troppo intensivo, quello che abbiamo pensato di fare è stato trovare la lista di nodi a maggior \textit{degree} su un grafo ridotto e poi calcolare la betweenness approssimata sul grafo completo e confrontare i valori ottenuti per identificare eventuali variazioni.\\
+\newpage
+\begin{figure}[!ht]
+\centering
+\makebox[\textwidth][c]{
+	\subfloat[betweenness dei nodi a maggior degree]{\begin{tabular}{ | c | c | c | c | }
+\hline
+	ID & closeness & betweenness & degree\\
+  \hline
+40 & 0.3317& 0.1294& 1134\\
+44 & 0.3008& 0.0303& 1055\\
+108 & 0.3180& 0.0405& 854\\
+116 & 0.3099& 0.0306& 838\\
+159 & 0.3217& 0.0520& 833\\
+36 & 0.3145& 0.0434& 779\\
+191 & 0.3237& 0.0621& 732\\
+49 & 0.3043& 0.0130& 569\\
+634 & 0.2747& 0.0106& 550\\
+156 & 0.2966& 0.0066& 475\\
+35 & 0.3106& 0.0249& 467\\
+  \hline
+\end{tabular}}
+\qquad
+\subfloat[degree dei nodi a maggior betweenness]{\begin{tabular}{ | c | c | c | c | }
+\hline
+	ID & closeness & betweenness & degree\\
+  \hline
+40 & 0.3317& 0.1201& 1134\\
+191 & 0.3237& 0.0695& 732\\
+159 & 0.3212& 0.0562& 833\\
+44 & 0.3008& 0.0510& 1055\\
+108 & 0.3181& 0.0451& 854\\
+36 & 0.3145& 0.0387& 779\\
+116 & 0.3095& 0.0386& 838\\
+35 & 0.3106& 0.0227& 467\\
+49 & 0.3043& 0.0176& 569\\
+1100 & 0.3018& 0.0168& 333\\
+212 & 0.3010& 0.0158& 327\\
+  \hline
+\end{tabular}}}
+\end{figure}
+Ciò che abbiamo individuato è che nel nostro grafo la betweenness non è necessariamente legata al grado di un nodo,ci sono nodi aventi betweenness molto altra pur avendo un grado non massimo, questi sono i $broker$ che fungono da collegamento tra le varie comunità, soprattutto tra le comunità più grosse 
+Però in linea di massima possiamo assumere che un nodo avente un grado alto avrà una betweenness quantomento considerevole, se non elevata (gli unici casi aventi grado non alto (non si può definire 333 basso) e betweenness alta sono il nodo 1100 ed il nodo 212).
+
 \subsection{analisi di affiliazione}
 L'ultima interessante analisi svolta è stata l'analisi di affiliazione, essendo un dataset relativo a luoghi frequentati da individui l' analisi più interessante è quella dei luoghi.
-I luoghi possono infatti essere visti come dei \textit{foci} ed un'analisi dei luoghi più frequentati e dei nodi che frequentano tali luoghi può fornire risultati interessanti.
-Il primo risultato interessante ottenuto è che ci sono dei luoghi dove moltissime persone si sono incontrate, il luogo più frequentato ha avuto $2606$ distinti visitatori, il $9\%$ di tutti i nodi. Il 30\% degli individui ha visitato almeno uno dei 4 luoghi più frequentati, si nota che zone corrispondono alle zone più popolose (il luogo dove si sono incontrate più persone ad esempio è il centro di Denver).
+I luoghi possono infatti essere visti come dei \textit{foci} ed un'analisi dei luoghi più frequentati e dei nodi che frequentano tali luoghi può fornire risultati interessanti.\\
+Il risultato più interessante ottenuto è che ci sono dei luoghi dove moltissime persone si sono incontrate, il luogo più frequentato ha avuto $2606$ distinti visitatori, il $9\%$ di tutti i nodi. Il 30\% degli individui ha visitato almeno uno dei 4 luoghi più frequentati, si nota che zone corrispondono alle zone più popolose (il luogo dove si sono incontrate più persone ad esempio è il centro di Denver).
 %TODO: che altre analisi si possono fare?
 \section{Simulazione dinamica}
 Avendo tra le mani un dataset che riportava spostamenti ed incontri tra individui l'analisi dinamica più interessante (anche se purtroppo la più ovvia) è quella di lanciare una simulazione epidemica.
@@ -166,9 +203,8 @@ La media delle persone infettate è stata di $32.578$ individui che in un moment
 \includegraphics[width=0.7\textwidth]{generic_run.png}
 \caption{Generic contagion} \label{FIG:generic}
 \end{figure*}
-\newpage
 
-Per dare un po' di contesto si fa notare che in 3 anni il numero di casi di COVID-19 in italia ha coinvolto il 33\% della popolazione.
+Per dare un po' di contesto si fa notare che in 2 anni il numero di casi di COVID-19 in italia ha coinvolto il 33\% della popolazione.
 Questo valore molto alto è dovuto in parte ai parametri impostati (ad esempio $\gamma$ molto basso) ma soprattutto alla forte connessione nel grafo.
 Infatti una stima di $R_0$ fornisce un valore elevatissimo, pari a $34.367$, questo a causa dell'elevato numero di vicini che alcuni nodi hanno.
 Se è infatti vero che (come affermato in sezione \ref{SEC:Degree}) la maggior parte dei nodi ha pochi vicini è anche vero che ci sono comunque tanti nodi aventi $Degree$ elevati.
@@ -178,15 +214,45 @@ Perdipiù dall'analisi del grafo abbiamo individuato un forte numero di comunit�
 
 \subsection{ variazione numero e tipo di infetti iniziali}
 Per analizzare il comportamento dell'infezione sulla rete abbiamo provato a studiare i diversi "pazienti 0" da cui l'infezione può partire.
+Grazie alle analisi effettuate nella sezione \ref{SEC:centralità} sappiamo che i nodi con massima \textit{betwennes} non sono quelli con \textit{degree} più elevati, ma ci aspettiamo che questi causino un effetto cascata più significatico e che i nodi con maggior \textit{betweennes} causino un contagio più diffuso.
+
+Perciò il primo tentativo fatto è stato lanciare l'infezione con un solo paziente 0, scelto randomicamente.\\
+\begin{centering}\includegraphics[width=1\textwidth]{1_random.png}\end{centering}\\
+A seconda della tipo di paziente scelto abbiamo avuto risultati differenti.
+\begin{itemize}
+	\item La run numero 1 presenta un paziente probabilmente di grado o betweenness elevata, infatti si verifica quasi subito un effetto cascata.
+	\item La run numero 4 presenta una grossa fase di "quiescenza" prima dell'effetto cascata, il paziente probabilmente apparteneva a un piccola comunità che poi ha infettato la comunità più grande.
+	\item La run numero 2 presenta una situazione intermedia tra le due descritte prima
+	\item Le run numero 0 e 3 non hanno creato alcuna epidemia, i pazienti 0 appartenevano ad una comunità piccola e segregata o erano addirittura fuori dalla largest component.
+\end{itemize}
+Basandoci su questi risultati abbiamo continuato lo studio facendo partire l'epidemia dai peggiori candidati, un nodo con minor degree e 10 nodi con degree minimo\\
+\begin{figure*}[!ht]
+\centering
+\makebox[\textwidth][c]{
+\includegraphics[width=0.85\textwidth]{1_worst.png}
+\includegraphics[width=0.85\textwidth]{10_worst.png}}
+\caption{1 paziente vs 10 pazienti} \label{FIG:bad_diffusion}
+\end{figure*}\\
+In questo caso non si verifica alcun effetto cascata.I pazienti iniziali appartenevano tutti a piccole comunità probabilmente (ricordo che ci sono molte comunità dense ma poco interconnesse) ed il contagio non si è diffuso abbastanza velocemente per generare un effetto cascata. Notiamo in particolare nel grafo di sinistra 3 run (tutte grigie) in cui il paziente non ha infettato nessuno ed è semplicemente guarito, questo perchè non è riuscito ad infettare il suo unico vicino.
+\newline \newline
+Se invece i pazienti iniziali sono nodi con molti vicini (quindi presumibilmente hanno una betweenness elevata) la situazione è molto differente.
+Questo è il grafico di sviluppo epidemico con i 10 nodi aventi grado più elevato come pazienti iniziali.\\
+\begin{centering}\includegraphics[width=1\textwidth]{10_best.png}\end{centering}\\
+mentre questo è lo sviluppo epidemico utilizzando come paziente 0 il nodo che ha il degree più alto (questo nodo in particolare ha anche la betweenness massima).
+\begin{centering}\includegraphics[width=1\textwidth]{1_best.png}\end{centering}\\
+Come si può notare in tutte le run si è verificato un contagio di più di 20000 individui ed un effetto cascata quasi istantaneo, questo partendo da un solo paziente iniziale.
+Come anche affermato a lezione l'infezione di un hub ha effetti molto importanti sullo sviluppo dell'epidemia, così come la struttura del grafo.
+
 
 \subsection{transmission rate}
 $R_0 = 34$ è un valore molto alto, andando ad abbassare questo valore (ad esempio modificando il parametro $\beta$) si ottiene una curva epidemica più moderata.
-Il grafico in figura \ref{FIG:transmission_rate_06_1_random} mostra la diffusione impostando $\beta = 0.006$ ed ottenendo $R_0$ vicino a 1
+Il grafico in figura \ref{FIG:transmission_rate_06_1_random} mostra la diffusione impostando $\beta = 0.006$ ed ottenendo $R_0$ vicino a 1.\\
 \begin{figure*}[!ht]
 \centering
 \includegraphics[width=0.7\textwidth]{transmission_rate_06_1_random.png}
 \caption{Lower $R_0$} \label{FIG:transmission_rate_06_1_random}
-\end{figure*}
+\end{figure*}\\
+Si nota una trasmissione molto ridotta ed un numero di infetti molto inferiore, ma C'è anche da considerare che un parametro di infezione così basso è irrealistico, vorrebbe dire infettare 1 individuo su 600 incontrati.
 
 
 \newpage

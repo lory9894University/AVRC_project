@@ -28,6 +28,7 @@ if __name__ == '__main__':
     tau = 0.056  # transmission rate
     gamma = 0.045  # recovery rate
     rho = 0.01  # random fraction initially infected
+    print(best_spreader)
 
     #for counter in range(iterations):  # run simulations
     #    t, S, I, R = EoN.fast_SIR(G, tau, gamma, rho=rho, tmax=561)
