@@ -61,12 +61,12 @@ Vi è infatti una enorme componente connessa massimale, ma quasi tutti i nodi ri
 Questi risulta essere $5,71$ in linea con l'esperimento effettuato da Stanley Milgram che rilevava 6 gradi di separazione tra tutte le coppie di nodi, in questa rete la \textit{small world hypothesis} è confermata. 
 
 \subsection{Componenti connesse}
-Analizzando tutte le componenti formtemente connesse ne individuiamo $547$, di seguito una lista delle prime 10 in ordine decrescente di dimensione.\\
-\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | }
+Analizzando tutte le componenti formtemente connesse ne individuiamo $547$, di seguito una lista delle prime 10 in ordine decrescente di dimensione.
+\begin{center}\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | }
   \hline
   56739 & 49 & 11 & 11 & 10 & 10 & 9 & 8 & 8 & 7\\
   \hline
-\end{tabular}\\
+\end{tabular}\end{center}
 Il 96\% dei nodi fa parte della \lcc, tutte le altre componenti connesse sono formati da meno di 3/4 nodi. 
 Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglione nella sezione CITARE LA SEZIONE STUDIO DEI FOCI): Esiste un luogo geografico dove molte persone si sono incontrate (cioè molti utenti vivono in una area geografica ridotta) oppure esistono degli hub, degli utenti che si sposano molto ed incontrano molte persone.
 
@@ -116,11 +116,9 @@ All'interno di queste comunità ci sono molti collegamenti, un \textit{average s
 \includegraphics[width=0.7\textwidth]{community_size.png}
 \caption{size of communities} \label{FIG:communities_sizes}
 \end{figure*}
-\newpage
 Tutte queste caratteristiche si osservano bene andando a costruire un grafo con le comunità come nodi.
 Calcolando su questo grafo la degree correlation otteniamo un valore pari a $-0.533$ che tende ancora di più a $-1$ se consideriamo tutto il grafo e non solo la \lcc ed andando a effettuare un plot del nuovo grafo notiamo subito la struttura \textit{Hubs-and-spoke}
 In figura \ref{FIG:communities_plot} sono rappresentate le comunità, le etichette degli archi identificano le comunità in ordine decrescente di dimensione (0 la più grande) e il layout è basanto sull'algoritmo \textit{spring} di Fruchterman-Reingold, cioè più un nodo è distante dall'altro minori archi ci sono che collegano le due comunità.\\
-\newpage
 \begin{figure*}[!ht]
 \centering
 \includegraphics[width=1\textwidth]{cummunity_plot.png}
@@ -133,7 +131,6 @@ In conclusione possiamo affermare di avere molte comunità, molto intraconnesse 
 \label{SEC:centralità}
 In vista delle analisi dinamiche abbiamo appurato che sarebbe stata utile ed interessante una lista dei nodi aventi maggior \textit{betweennes}.
 Il problema è che calcolare accuratamente la betweennes di un grafo con $58228$ è computazionalmente troppo intensivo, quello che abbiamo pensato di fare è stato trovare la lista di nodi a maggior \textit{degree} su un grafo ridotto e poi calcolare la betweenness approssimata sul grafo completo e confrontare i valori ottenuti per identificare eventuali variazioni.\\
-\newpage
 \begin{figure}[!ht]
 \centering
 \makebox[\textwidth][c]{
