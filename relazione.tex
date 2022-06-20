@@ -68,7 +68,7 @@ Analizzando tutte le componenti formtemente connesse ne individuiamo $547$, di s
   \hline
 \end{tabular}\end{center}
 Il 96\% dei nodi fa parte della \lcc, tutte le altre componenti connesse sono formati da meno di 3/4 nodi. 
-Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglione nella sezione CITARE LA SEZIONE STUDIO DEI FOCI): Esiste un luogo geografico dove molte persone si sono incontrate (cioè molti utenti vivono in una area geografica ridotta) oppure esistono degli hub, degli utenti che si sposano molto ed incontrano molte persone.
+Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglio nella sezione \ref{SEC:centralità}): Esiste un luogo geografico dove molte persone si sono incontrate (cioè molti utenti vivono in una area geografica ridotta) oppure esistono degli hub, degli utenti che si sposano molto ed incontrano molte persone.
 
 \subsection{analisi dei Degrees}
 \label{SEC:Degree}
@@ -86,7 +86,7 @@ Andando ad effettuare il plot \ref{FIG:degree_dist_G} si evidenzia la distribuzi
 \end{figure*}
 Ci sono alcui dettagli notevoli (che abbiamo notato solo dopo analisi di assortatività), in primis il numero hub è molto basso, ci sono 7 nodi che possiamo realmente definire hub (cioè nodi il cui grado è >> del grado di tutti gli altri), il secondo dettaglio è che i pochi hub hanno comunque pochi vicini.
 Il massimo degree calcolato è $1134$ che è lo $0.5\%$ di tutti i link, ciò potrebbe essere dovuto al fatto che il grafo è poco connesso, ma gli studi effettuati sulla dimensione della \lcc lo escludono, la conclusione è che in questa rete non ci sono hub molto grandi.
-%TODO: è una power-law?
+In ogni caso si nota subito che questo è un network `\textit{scale-free} in quanto segue una power-law $f(k) = k^{-c}$ con $c= 2,55$.
 \subsection{Clustering coefficient e Degree correlation}
 Queste due differenti analisi sono inserite nella stessa sezione in quanto hanno fornito risultati inaspettati, che hanno richiesto un'analisi più approfondita prima di essere spiegabili.
 Il clusering coefficient è risultato essere $0.172$, un valore molto basso che indicava una scarsa tendenza dei nodi a rispettare la \textit{triadic clousure}.
@@ -253,6 +253,32 @@ Si nota una trasmissione molto ridotta ed un numero di infetti molto inferiore, 
 
 
 \newpage
+\section{Random Models}
+In questa sezione del progetto tratteremo le analisi che sono state condotte su alcuni modelli per la creazione di grafi randomici e come questi ultimi differiscano dal nostro grafo.
+I modelli considerati sono:
+\begin{itemize}
+	\item Erdos-Renyi.
+	\item Watts-Strogatz
+	\item Barabasi-Albert
+\end{itemize}
+Altri modelli, quali: Configuration	model e Stochastic bloc model non sono stati considerati poichè i risultati ottenuti erano poco interessanti o rilevanti.
+
+\subsection{Erdos-Renyi}
+In questo tipo di modello è possibile modificare il numero di nodi e la probabilità con la quale essi si andranno a collegare. Osservando i dati ottenuti, cambiando il numero di nodi ma lasciando la probabilità invariata si riscontra una proporzione tra il numero di nodi e gli archi creati. Quello che otteniamo sempre sono grafi composti da una largest connected component costituita da tutti i nodi disponibili, un altro aspetto che risalta è il grado medio dei nodi che nonostante una probabilità bassa (es.: 0,2) rimane alto, ovviamente più aumentiamo la probabilità più aumenta il grado medio. Questo dato possiamo metterlo in relazione con quello ottenuto dal nostro grafo di partenza che risulta avere un grado medio dei nodi molto basso per via della presenza di molti nodi fuori dalla largest connected component.
+Altri dati che risaltano sono la Degree Correlation che risulta essere sempre in un intorno dello zero. Questa situazione l’abbiamo anche riscontrata nel nostro grafo.
+Un altro dato interessante è il Clustering Coefficent, poiché nei grafi randomici che otteniamo più aumentiamo la probabilità più il dato cresce e viceversa, mentre nel nostro grafo di partenza questo valoro è molto basso. Quindi in generale i grafi che otteniamo non sono grafi bipartiti.
+Infine, un altro dato che spicca è la Betweeness Centrality che nei grafi randomici ottenuti risulta essere in generale molto bassa quindi i grafi ottenuti non presentano nodi hub o coppie di nodi che costituiscono ponti.
+
+
+\subsection{Watts-Strogatz}
+In questo modello invece è possibile andare a modificare il numero di nodi, il grado iniziale dei nodi e la probabilità che i collegamenti iniziali vengano ricablati. In generale i grafi che otteniamo sono pressocché identici, ovvero grafi con un unico largest connected componnet formato da tutti i nodi disponibili, un Clustering Coefficent basso (da 0,15 a 0,3), una Degree Correlation neutra e una Betweeness Centrality veramente molto bassa, quindi grafi tendenzialmente bipartiti e senza hubs o bridge. Nel caso in cui però dovessimo aumentare il valore della probabilità il valore che presenta una diminuzione notevole è quello del Clustering Coefficent, che può arrivare anche a uno 0,02. Un altro caso interessante è il caso in cui diminuiamo considerevolmente il valore del secondo parametro (grado iniziale dei nodi), andando a modificare questo parametro, otteniamo grafi con più Largest connected component (anche se vi è sempre una di maggiore dimensione rispetto alle altre).
+Quindi in generale quello che otteniamo sono grafi dissimili dal nostro fatta eccezione per il valore della Degree Correlation.
+
+
+
+\subsection{Barabasi-Albert}
+In questo modello posso modificare: il numero di nodi del mio grafo e il numero di archi da creare da un nuovo nodo ai nodi preesistenti.
+I vari grafi che otteniamo sono grafi con valori di Betweeness Centrality molto bassi e una Degree Correlation sempre nell’intorno dello zero quindi non possiamo capire se il grafo è assortativo o no. Nel caso in cui dovessi aumentare notevolmente il numero di archi da creare da un nuovo nodo ai nodi preesistenti, il valore di Clustering Coefficent aumenterebbe; quindi, ottengo dei grafi che sono simili a dei social network. In conclusione, i grafi che otteniamo sono diversi dal grafo di partenza tranne per il valore della Degree Correlation.
 \begin{thebibliography}{9}
 
 \bibitem{original_paper}
