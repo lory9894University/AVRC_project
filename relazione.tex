@@ -52,7 +52,7 @@ L'operazione di approssimazione più efficace che abbiamo trovato è stata la sc
 E' stato generato anche una terzo dataset, andando a focalizzarsi sui luoghi visitati, difatti tali luoghi possono essere visti come \textit{foci} ed hanno un grosso impatto sul meccanismo di creazione degli archi.
 
 \subsection{Distanze}
-Questa è stata la prima operazione che ha richiesto una approssimazione, difatti è stato usato il grafo relativo ai dati del solo anno $2019$, dovendo cercare uno shortest path per ogni coppia di nodi l'algoritmo di \textit{path finding} verrebbe eseguito potenzialmente $n*(n-1)$, cioè $3^.363^.942^.000$. ($n$ è il numero di nodi facende parte della \textit{largest connected component}, brevemente \textit{lcc}.
+Questa è stata la prima operazione che ha richiesto una approssimazione, difatti è stato usato il grafo relativo ai dati del solo anno $2009$, dovendo cercare uno shortest path per ogni coppia di nodi l'algoritmo di \textit{path finding} verrebbe eseguito potenzialmente $n*(n-1)$, cioè $3^.363^.942^.000$. ($n$ è il numero di nodi facende parte della \textit{largest connected component}, brevemente \textit{lcc}.
 Il grafo non è completamente connesso, ma un rapido controllo ha indentificato che il 96\% dei nodi si trovavano nella \lcc, quindi analizzare il grafo completo è computazionalmente troppo intensivo.
 
 
@@ -68,9 +68,9 @@ Analizzando tutte le componenti formtemente connesse ne individuiamo $547$, di s
   \hline
 \end{tabular}\end{center}
 Il 96\% dei nodi fa parte della \lcc, tutte le altre componenti connesse sono formati da meno di 3/4 nodi. 
-Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglione nella sezione CITARE LA SEZIONE STUDIO DEI FOCI): Esiste un luogo geografico dove molte persone si sono incontrate (cioè molti utenti vivono in una area geografica ridotta) oppure esistono degli hub, degli utenti che si sposano molto ed incontrano molte persone.
+Ci sono due differenti possibilità per spiegare questo fenomeno (le due possibilità saranno analizzate meglio nella sezione \ref{SEC:centralità}): Esiste un luogo geografico dove molte persone si sono incontrate (cioè molti utenti vivono in una area geografica ridotta) oppure esistono degli hub, degli utenti che si sposano molto ed incontrano molte persone.
 
-\subsection{analisi dei Degrees}
+\subsection{Analisi dei Degrees}
 \label{SEC:Degree}
 Avendo una componente connessa molto grande ed essendo questa una rete sociale ci aspettavamno una struttura \textit{core-perifery} quindi alcuni \textit{super-hubs} aventi un grado molto elevato ed una maggioranza dei nodi con un degree molto basso.
 Questo è confermato dalla media dei gradi di tutti i nodi del grafo: $7.35$.
@@ -86,7 +86,7 @@ Andando ad effettuare il plot \ref{FIG:degree_dist_G} si evidenzia la distribuzi
 \end{figure*}
 Ci sono alcui dettagli notevoli (che abbiamo notato solo dopo analisi di assortatività), in primis il numero hub è molto basso, ci sono 7 nodi che possiamo realmente definire hub (cioè nodi il cui grado è >> del grado di tutti gli altri), il secondo dettaglio è che i pochi hub hanno comunque pochi vicini.
 Il massimo degree calcolato è $1134$ che è lo $0.5\%$ di tutti i link, ciò potrebbe essere dovuto al fatto che il grafo è poco connesso, ma gli studi effettuati sulla dimensione della \lcc lo escludono, la conclusione è che in questa rete non ci sono hub molto grandi.
-%TODO: è una power-law?
+In ogni caso si nota subito che questo è un network `\textit{scale-free} in quanto segue una power-law $f(k) = k^{-c}$ con $c= 2,55$.
 \subsection{Clustering coefficient e Degree correlation}
 Queste due differenti analisi sono inserite nella stessa sezione in quanto hanno fornito risultati inaspettati, che hanno richiesto un'analisi più approfondita prima di essere spiegabili.
 Il clusering coefficient è risultato essere $0.172$, un valore molto basso che indicava una scarsa tendenza dei nodi a rispettare la \textit{triadic clousure}.
@@ -97,16 +97,19 @@ Ma questa ipotesi non è molto sensata e soprattutto non è supportata da nessun
 
 
 L'ipotesi corretta, derivata dallo studio dell'assortatività e confermata dalla lettura del paper orginale, è che gli incontri tra individui non siano una forte rappresentazione della rete sociale sottostante.\\
-Anche l'assortatività riporta una misura inaspettata, avendo questa un valore pari a $0.0108$ identifica che la rete non è assortativa come ci saremmo aspettati da una rete sociale, bensì molto più simile ad un random network.
+Anche l'assortatività riporta una misura inaspettata, avendo questa un valore pari a $0.0108$ identifica che la rete non è assortativa come ci saremmo aspettati da una rete sociale, bensì neutra come un random network.
 I nodi quindi non tendono a rispettare alcun criterio di assortatività, non c'è alcuna relazione tra la presenza di un arco e il grado dei nodi ai capi dello stesso.
 La spiegazione di ciò la si può trovare leggendo il paper orginale: 
 "We show that social relationships can explain about 10\% to 30\% of all human movement, while periodic behavior explains 50\% to 70\%"\cite{original_paper}\\
 Quindi questo dataset non rappresenta perfettamente una rete sociale, pur mantenendo molte delle caretteristiche che ne definiscono una.
 Essendo gli incontri tra utenti tra il 50\% ed il 70\% dovuti alla "routine" (e quindi non rappresentanti una rete sociale sottostante) molti di questi mettono randomicamente in relazione nodi che in realtà non hanno alcun legame.
+\subsection{Analisi di affiliazione}
+L'ultima interessante analisi svolta è stata l'analisi di affiliazione, essendo un dataset relativo a luoghi frequentati da individui l' analisi più interessante è quella dei luoghi.
+I luoghi possono infatti essere visti come dei \textit{foci} ed un'analisi dei luoghi più frequentati e dei nodi che frequentano tali luoghi può fornire risultati interessanti.\\
+Il risultato più interessante ottenuto è che ci sono dei luoghi dove moltissime persone si sono incontrate, il luogo più frequentato ha avuto $2606$ distinti visitatori, il $9\%$ di tutti i nodi. Il 30\% degli individui ha visitato almeno uno dei 4 luoghi più frequentati, si nota che zone corrispondono alle zone più popolose (il luogo dove si sono incontrate più persone ad esempio è il centro di Denver).
 
 \subsection{Analisi delle comunità}
-Posto che la rete somiglia più ad un network randomico che ad una rete sociale, come è possibile che molte caratteristiche ? (brevi distanze, componenti fortemente connesse, Heavy-tail distribution).\\
-Per rispondere abbiamo analizzato le comunità, in particolare abbiamo considerato solo la \lcc, dato che già sappiamo che la maggior parte dei nodi non appartenenti alla \textit{lcc} compongono \textit{clique} da 2-4 nodi disconnesse dal resto del grafo.
+Abbiamo analizzato le comunità, in particolare abbiamo considerato solo la \lcc, dato che già sappiamo che la maggior parte dei nodi non appartenenti alla \textit{lcc} compongono \textit{clique} da 2-4 nodi disconnesse dal resto del grafo.
 É stato rilevato un numero di comunità variabile tra le $150 \text{ e le } 220$, la maggior parte di piccole dimensioni (più dei 3/4 avente una dimensione massima di 100 nodi), il valore non è fisso in quanto per il calcolo è stato usato l'algoritmo di $Louvain$ che ha una assegnazione iniziale randomica.
 ome mostrato in figura \ref{FIG:communities_sizes} è presente una distribuzione \textit{Heavy-tail} delle dimensioni della comunità.
 In sintesi abbiamo poche comunità di nodi, alcune di queste molto grandi.
@@ -127,7 +130,7 @@ In figura \ref{FIG:communities_plot} sono rappresentate le comunità, le etichet
 La prima cosa che si nota è che il \textit{Degree} di una comunità è proporzionale alla sua dimensione, le comunità molto grandi sono collegate a molte altre comunità (naturalmente, dato che hanno molti più componenti).\\
 In secondo luogo notiamo che le comunità tendono ad essere distanti tra loro (a parte un grosso cluster in centro) ad indicare che ci sono poche connessioni inter-comunitarie.
 In conclusione possiamo affermare di avere molte comunità, molto intraconnesse e poco interconnesse, c'è poi un ristretto gruppo di comunità dove l'interconnessione è molto elevata..
-\subsection{analisi di centralità}
+\subsection{Analisi di centralità}
 \label{SEC:centralità}
 In vista delle analisi dinamiche abbiamo appurato che sarebbe stata utile ed interessante una lista dei nodi aventi maggior \textit{betweennes}.
 Il problema è che calcolare accuratamente la betweennes di un grafo con $58228$ è computazionalmente troppo intensivo, quello che abbiamo pensato di fare è stato trovare la lista di nodi a maggior \textit{degree} su un grafo ridotto e poi calcolare la betweenness approssimata sul grafo completo e confrontare i valori ottenuti per identificare eventuali variazioni.\\
@@ -173,16 +176,12 @@ Il problema è che calcolare accuratamente la betweennes di un grafo con $58228$
 Ciò che abbiamo individuato è che nel nostro grafo la betweenness non è necessariamente legata al grado di un nodo,ci sono nodi aventi betweenness molto altra pur avendo un grado non massimo, questi sono i $broker$ che fungono da collegamento tra le varie comunità, soprattutto tra le comunità più grosse 
 Però in linea di massima possiamo assumere che un nodo avente un grado alto avrà una betweenness quantomento considerevole, se non elevata (gli unici casi aventi grado non alto (non si può definire 333 basso) e betweenness alta sono il nodo 1100 ed il nodo 212).
 
-\subsection{analisi di affiliazione}
-L'ultima interessante analisi svolta è stata l'analisi di affiliazione, essendo un dataset relativo a luoghi frequentati da individui l' analisi più interessante è quella dei luoghi.
-I luoghi possono infatti essere visti come dei \textit{foci} ed un'analisi dei luoghi più frequentati e dei nodi che frequentano tali luoghi può fornire risultati interessanti.\\
-Il risultato più interessante ottenuto è che ci sono dei luoghi dove moltissime persone si sono incontrate, il luogo più frequentato ha avuto $2606$ distinti visitatori, il $9\%$ di tutti i nodi. Il 30\% degli individui ha visitato almeno uno dei 4 luoghi più frequentati, si nota che zone corrispondono alle zone più popolose (il luogo dove si sono incontrate più persone ad esempio è il centro di Denver).
 %TODO: che altre analisi si possono fare?
 \section{Simulazione dinamica}
 Avendo tra le mani un dataset che riportava spostamenti ed incontri tra individui l'analisi dinamica più interessante (anche se purtroppo la più ovvia) è quella di lanciare una simulazione epidemica.
 È stato utilizzato un modello SIR con i seguenti parametri:
 \begin{align*}
-\beta = 0.056\\
+\tau = 0.056\\
 \gamma = 0.045\\
 \end{align*}
 Questi valori non sono casuali bensì sono valori ottenuti dallo studio del COVID-19, in particolare estrapolati dallo studio \textit{Estimation of SIR model’s parameters of COVID-19 in Algeria} \cite{covid}.
@@ -190,14 +189,14 @@ Questi valori non sono casuali bensì sono valori ottenuti dallo studio del COVI
 
 
 Sono state lanciate diverse simulazioni epidemiche andando a variare il numero di "pazienti 0" e le loro caratteristiche.
-In modo da studiare come la rete interagisce con la diffusione, non sono mai stati modificati i valori di $\beta$ e $\gamma$.\\
+In modo da studiare come la rete interagisce con la diffusione, non sono mai stati modificati i valori di $\tau$ e $\gamma$.\\
 
-\subsection{pochi infetti, casuali}
+\subsection{Pochi infetti, casuali}
 La prima serie di run è stata effettuata con pochi infetti iniziali, 5 individui, il grafico in figura \ref{FIG:generic} mostra l'andamento di $S, R, I$ in relazione al tempo.
 La media delle persone infettate è stata di $32.578$ individui che in un momento o in un'altro hanno contratto l'infezione nell'arco di 250 giorni, il 55\% della popolazione.\\
 \begin{figure*}[!ht]
 \centering
-\includegraphics[width=0.7\textwidth]{generic_run.png}
+\includegraphics[width=0.8\textwidth]{generic_run.png}
 \caption{Generic contagion} \label{FIG:generic}
 \end{figure*}
 
@@ -209,7 +208,7 @@ Perciò si verifica rapidamente un effetto cascata che però notiamo si arresta 
 Questo si spiega di nuovo ragionando sui $Degree$ dei nodi, come detto in precendenza ci sono moltissimi nodi con pochi vicini.
 Perdipiù dall'analisi del grafo abbiamo individuato un forte numero di comunità molto separate tra loro, la nostra ipotesi è che si verifichi un fenomeno simile a quello del $\lambda - clustering$ che impedisce all'epidemia di penetrare in alcune comunità rendendo difficoltosa l'infezione di tutto il network.
 
-\subsection{ variazione numero e tipo di infetti iniziali}
+\subsection{Variazione numero e tipo di infetti iniziali}
 Per analizzare il comportamento dell'infezione sulla rete abbiamo provato a studiare i diversi "pazienti 0" da cui l'infezione può partire.
 Grazie alle analisi effettuate nella sezione \ref{SEC:centralità} sappiamo che i nodi con massima \textit{betwennes} non sono quelli con \textit{degree} più elevati, ma ci aspettiamo che questi causino un effetto cascata più significatico e che i nodi con maggior \textit{betweennes} causino un contagio più diffuso.
 
@@ -225,10 +224,10 @@ A seconda della tipo di paziente scelto abbiamo avuto risultati differenti.
 Basandoci su questi risultati abbiamo continuato lo studio facendo partire l'epidemia dai peggiori candidati, un nodo con minor degree e 10 nodi con degree minimo\\
 \begin{figure*}[!ht]
 \centering
-\makebox[\textwidth][c]{
+\makebox[\textwidth][c]{	
 \includegraphics[width=0.85\textwidth]{1_worst.png}
 \includegraphics[width=0.85\textwidth]{10_worst.png}}
-\caption{1 paziente vs 10 pazienti} \label{FIG:bad_diffusion}
+\caption{1 paziente (5 run) vs 10 pazienti} \label{FIG:bad_diffusion}
 \end{figure*}\\
 In questo caso non si verifica alcun effetto cascata.I pazienti iniziali appartenevano tutti a piccole comunità probabilmente (ricordo che ci sono molte comunità dense ma poco interconnesse) ed il contagio non si è diffuso abbastanza velocemente per generare un effetto cascata. Notiamo in particolare nel grafo di sinistra 3 run (tutte grigie) in cui il paziente non ha infettato nessuno ed è semplicemente guarito, questo perchè non è riuscito ad infettare il suo unico vicino.
 \newline \newline
@@ -241,9 +240,9 @@ Come si può notare in tutte le run si è verificato un contagio di più di 2000
 Come anche affermato a lezione l'infezione di un hub ha effetti molto importanti sullo sviluppo dell'epidemia, così come la struttura del grafo.
 
 
-\subsection{transmission rate}
-$R_0 = 34$ è un valore molto alto, andando ad abbassare questo valore (ad esempio modificando il parametro $\beta$) si ottiene una curva epidemica più moderata.
-Il grafico in figura \ref{FIG:transmission_rate_06_1_random} mostra la diffusione impostando $\beta = 0.006$ ed ottenendo $R_0$ vicino a 1.\\
+\subsection{Transmission rate}
+$R_0 = 34$ è un valore molto alto, andando ad abbassare questo valore (ad esempio modificando il parametro $\tau$) si ottiene una curva epidemica più moderata.
+Il grafico in figura \ref{FIG:transmission_rate_06_1_random} mostra la diffusione impostando $\tau = 0.006$ ed ottenendo $R_0$ vicino a 1.\\
 \begin{figure*}[!ht]
 \centering
 \includegraphics[width=0.7\textwidth]{transmission_rate_06_1_random.png}
@@ -253,6 +252,32 @@ Si nota una trasmissione molto ridotta ed un numero di infetti molto inferiore, 
 
 
 \newpage
+\section{Random Models}
+In questa sezione del progetto tratteremo le analisi che sono state condotte su alcuni modelli per la creazione di grafi randomici e come questi ultimi differiscano dal nostro grafo.
+I modelli considerati sono:
+\begin{itemize}
+	\item Erdos-Renyi.
+	\item Watts-Strogatz
+	\item Barabasi-Albert
+\end{itemize}
+Altri modelli, quali: Configuration	model e Stochastic bloc model non sono stati considerati poichè i risultati ottenuti erano poco interessanti o rilevanti.
+
+\subsection{Erdos-Renyi}
+In questo tipo di modello è possibile modificare il numero di nodi e la probabilità con la quale essi si andranno a collegare. Osservando i dati ottenuti, cambiando il numero di nodi ma lasciando la probabilità invariata si riscontra una proporzione tra il numero di nodi e gli archi creati. Quello che otteniamo sempre sono grafi composti da una largest connected component costituita da tutti i nodi disponibili, un altro aspetto che risalta è il grado medio dei nodi che nonostante una probabilità bassa (es.: 0,2) rimane alto, ovviamente più aumentiamo la probabilità più aumenta il grado medio. Questo dato possiamo metterlo in relazione con quello ottenuto dal nostro grafo di partenza che risulta avere un grado medio dei nodi molto basso per via della presenza di molti nodi fuori dalla largest connected component.
+Altri dati che risaltano sono la Degree Correlation che risulta essere sempre in un intorno dello zero. Questa situazione l’abbiamo anche riscontrata nel nostro grafo.
+Un altro dato interessante è il Clustering Coefficent, poiché nei grafi randomici che otteniamo più aumentiamo la probabilità più il dato cresce e viceversa, mentre nel nostro grafo di partenza questo valoro è molto basso. Quindi in generale i grafi che otteniamo non sono grafi bipartiti.
+Infine, un altro dato che spicca è la Betweeness Centrality che nei grafi randomici ottenuti risulta essere in generale molto bassa quindi i grafi ottenuti non presentano nodi hub o coppie di nodi che costituiscono ponti.
+
+
+\subsection{Watts-Strogatz}
+In questo modello invece è possibile andare a modificare il numero di nodi, il grado iniziale dei nodi e la probabilità che i collegamenti iniziali vengano ricablati. In generale i grafi che otteniamo sono pressocché identici, ovvero grafi con un unico largest connected componnet formato da tutti i nodi disponibili, un Clustering Coefficent basso (da 0,15 a 0,3), una Degree Correlation neutra e una Betweeness Centrality veramente molto bassa, quindi grafi tendenzialmente bipartiti e senza hubs o bridge. Nel caso in cui però dovessimo aumentare il valore della probabilità il valore che presenta una diminuzione notevole è quello del Clustering Coefficent, che può arrivare anche a uno 0,02. Un altro caso interessante è il caso in cui diminuiamo considerevolmente il valore del secondo parametro (grado iniziale dei nodi), andando a modificare questo parametro, otteniamo grafi con più Largest connected component (anche se vi è sempre una di maggiore dimensione rispetto alle altre).
+Quindi in generale quello che otteniamo sono grafi dissimili dal nostro fatta eccezione per il valore della Degree Correlation.
+
+
+
+\subsection{Barabasi-Albert}
+In questo modello posso modificare: il numero di nodi del mio grafo e il numero di archi da creare da un nuovo nodo ai nodi preesistenti.
+I vari grafi che otteniamo sono grafi con valori di Betweeness Centrality molto bassi e una Degree Correlation sempre nell’intorno dello zero quindi non possiamo capire se il grafo è assortativo o no. Nel caso in cui dovessi aumentare notevolmente il numero di archi da creare da un nuovo nodo ai nodi preesistenti, il valore di Clustering Coefficent aumenterebbe; quindi, ottengo dei grafi che sono simili a dei social network. In conclusione, i grafi che otteniamo sono diversi dal grafo di partenza tranne per il valore della Degree Correlation.
 \begin{thebibliography}{9}
 
 \bibitem{original_paper}
