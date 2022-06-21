@@ -1,6 +1,6 @@
 *.csv
 *.txt
-!dataset.txt
+!data_files/dataset.txt
 /relazione.fls
 /relazione.toc
 /relazione.pdf

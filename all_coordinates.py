@@ -2,7 +2,7 @@
 import pandas as pd
 
 
-path = "./Brightkite_totalCheckins.txt"
+path = "data_files/Brightkite_totalCheckins.txt"
 df = pd.read_table(path, delimiter='\t', names=['source', 'date', 'lat', 'lon', 'hash'])
 print(df.head()[['lon', 'lat']])
 with open('all_coordinates.txt', 'w') as f:

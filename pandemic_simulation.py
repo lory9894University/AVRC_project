@@ -18,8 +18,8 @@ def parseJson(path):
 
 
 if __name__ == '__main__':
-    dataset_path = "reducer/all_datas.json"
-    G = parseDataset("dataset.txt")
+    dataset_path = "data_files/all_datas.json"
+    G = parseDataset("data_files/dataset.txt")
     # G = parseJson(dataset_path)
 
     best_spreader = [d[0] for d in sorted(G.degree(), key=lambda x: x[1], reverse=True)]

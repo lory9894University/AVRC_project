@@ -8,10 +8,11 @@ def hash_to_coordinates(dataframe):
     dict = dataframe.set_index('hash').T.to_dict('list')
     return dict
 
+
 if __name__ == '__main__':
     path = "./Brightkite_totalCheckins.txt"
     df = pd.read_table(path, delimiter='\t', names=['source', 'date', 'lat', 'lon', 'hash'])
-    with open("all_datas.json") as f:
+    with open("../data_files/all_datas.json") as f:
         data = json.load(f)
     hashes = hash_to_coordinates(df)
     for link in data['links']:
@@ -25,7 +26,7 @@ if __name__ == '__main__':
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [d["lat"],d["lon"]],
+                    "coordinates": [d["lon"], d["lat"]],
                 },
                 "properties": d,
 
@@ -33,5 +34,5 @@ if __name__ == '__main__':
         ]
     }
 
-    with open("../dataset_coord.geojson", "w", encoding="utf-8") as output_file:
+    with open("../data_files/dataset_coord.geojson", "w", encoding="utf-8") as output_file:
         json.dump(geojs, output_file)
