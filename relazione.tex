@@ -32,15 +32,6 @@ In qualsiasi momento un utente ha la possibilità di condividere la sua posizion
 Il dataset preso in esame è una restrizione di questi dati secondo 3 filtri:
 \begin{itemize}
 	\item Temporale: Sono presenti solo risultati raccolti tra Apr. 2008 e Ott. 2010.
-	\item Spaziale: In generale tutte le coordinate si riferiscono a luoghi interni agli USA, ci sono però delle rare eccezioni, come mostrato in figura \ref{FIG:posizione_generica}
-		\begin{figure}[!ht]
-			\centering
-			\includegraphics[width=\linewidth]{posizione_generica}
-			\caption{mappa con coordinate}
-			\label{FIG:posizione_generica}
-		\end{figure}
-		Non vi è una spiegazione ma si possono fare delle ipotesi, il social potrebbe essersi diffuso solo in America e negli Stati Europei molto meno.
-		L'ipotesi che ci sentiamo di avanzare è che i dati raccolti siano solo di utenti Americani ed i luoghi \textit{outliers} siano luoghi in cui l'utente ha viaggiato (molti di questi sono luoghi turistici)
 	\item Sociale: Sono stati mantenuti solo gli archi che indicavano incontri, quindi se un nodo ha effettuato \textit{check-in} in un dato luogo ma nessuno era presente il dato è stato eliminato.
 		Questo fa si che sia possibile avere archi duplicati (due persone che si incontrano diverse volte in luoghi diversi o momenti diversi) ed archi monodirezionali, ad esempio un utente potrebbe aver guardato se ci fosse qualcuno nelle vicinanze e poi non averlo contattato.\\
 		Tutti gli archi monodirezionali sono stati trasformati in bidirezionali perchè per lo scopo della ricerca era importante registrare gli incontri, che questi fossero o meno rappresentativi di una interazione sociale
@@ -76,7 +67,7 @@ Avendo una componente connessa molto grande ed essendo questa una rete sociale c
 Questo è confermato dalla media dei gradi di tutti i nodi del grafo: $7.35$.
 Un valore inaspettatamente basso ma che si spiega andando a verificare quanti nodi hanno pochi vicini, i nodi che hanno meno di 4 vicini sono $39586$ e quelli che ne hanno solo 1 sono $21157$, il $36\%$ dei nodi ha un solo collegamento.
 Viene identificata quindi una fortissima struttura \textit{core-perifery} dove i nodi che non fanno parte del \textit{core} sono quasi completamente esclusi.
-Andando ad effettuare il plot \ref{FIG:degree_dist_G} si evidenzia la distribuzione \textit{Heavy-tail} che ci aspettiamo dalle precedenti osservazioni, la maggior parte dei nodi ha un grado molto basso mentre sono molti pochi i nodi ad avere un grado maggiore di $10^2$.
+Andando ad effettuare il plot \ref{FIG:degree_dist_G} si evidenzia la distribuzione \textit{Heavy-tail} che ci aspettiamo dalle precedenti osservazioni, la maggior parte dei nodi ha un grado molto basso mentre sono pochi i nodi ad avere un grado maggiore di $10^2$.
 \begin{figure*}[!ht]
 \centering
 \makebox[\textwidth][c]{
@@ -85,7 +76,7 @@ Andando ad effettuare il plot \ref{FIG:degree_dist_G} si evidenzia la distribuzi
 \caption{Degree distribution of graph} \label{FIG:degree_dist_G}
 \end{figure*}
 Ci sono alcui dettagli notevoli (che abbiamo notato solo dopo analisi di assortatività), in primis il numero hub è molto basso, ci sono 7 nodi che possiamo realmente definire hub (cioè nodi il cui grado è >> del grado di tutti gli altri), il secondo dettaglio è che i pochi hub hanno comunque pochi vicini.
-Il massimo degree calcolato è $1134$ che è lo $0.5\%$ di tutti i link, ciò potrebbe essere dovuto al fatto che il grafo è poco connesso, ma gli studi effettuati sulla dimensione della \lcc lo escludono, la conclusione è che in questa rete non ci sono hub molto grandi.
+Il massimo degree calcolato è $1134$ che è lo $0.5\%$ di tutti i link, ciò potrebbe essere dovuto al fatto che il grafo è rappresentativo di una rete sociale e quindi sparso, la conclusione è che in questa rete non ci sono hub molto grandi.
 In ogni caso si nota subito che questo è un network `\textit{scale-free} in quanto segue una power-law $f(k) = k^{-c}$ con $c= 2,55$.
 \subsection{Clustering coefficient e Degree correlation}
 Queste due differenti analisi sono inserite nella stessa sezione in quanto hanno fornito risultati inaspettati, che hanno richiesto un'analisi più approfondita prima di essere spiegabili.
@@ -111,7 +102,7 @@ Il risultato più interessante ottenuto è che ci sono dei luoghi dove moltissim
 \subsection{Analisi delle comunità}
 Abbiamo analizzato le comunità, in particolare abbiamo considerato solo la \lcc, dato che già sappiamo che la maggior parte dei nodi non appartenenti alla \textit{lcc} compongono \textit{clique} da 2-4 nodi disconnesse dal resto del grafo.
 É stato rilevato un numero di comunità variabile tra le $150 \text{ e le } 220$, la maggior parte di piccole dimensioni (più dei 3/4 avente una dimensione massima di 100 nodi), il valore non è fisso in quanto per il calcolo è stato usato l'algoritmo di $Louvain$ che ha una assegnazione iniziale randomica.
-ome mostrato in figura \ref{FIG:communities_sizes} è presente una distribuzione \textit{Heavy-tail} delle dimensioni della comunità.
+ome mostrato in figura \ref{FIG:communities_sizes} è presente una distribuzione \textit{logaritmica} delle dimensioni della comunità.
 In sintesi abbiamo poche comunità di nodi, alcune di queste molto grandi.
 All'interno di queste comunità ci sono molti collegamenti, un \textit{average shortest path} molto breve che permette di attraversarle molto in fretta, e le comunità sono collegate tra loro seguendo una struttura tendente ad essere \textit{Hubs-and-spoke}, cioè esistono delle grandi comunità a cui sono connessi molte altre comunità più piccole. \\
 \begin{figure*}[!ht]
@@ -120,7 +111,7 @@ All'interno di queste comunità ci sono molti collegamenti, un \textit{average s
 \caption{size of communities} \label{FIG:communities_sizes}
 \end{figure*}
 Tutte queste caratteristiche si osservano bene andando a costruire un grafo con le comunità come nodi.
-Calcolando su questo grafo la degree correlation otteniamo un valore pari a $-0.533$ che tende ancora di più a $-1$ se consideriamo tutto il grafo e non solo la \lcc ed andando a effettuare un plot del nuovo grafo notiamo subito la struttura \textit{Hubs-and-spoke}
+Calcolando su questo grafo la degree correlation otteniamo un valore pari a $-0.533$ che tende ancora di più a $-1$ se consideriamo tutto il grafo e non solo la \lcc ed andando a effettuare un plot del nuovo grafo notiamo subito la struttura \textit{Hubs-and-spoke}. \\
 In figura \ref{FIG:communities_plot} sono rappresentate le comunità, le etichette degli archi identificano le comunità in ordine decrescente di dimensione (0 la più grande) e il layout è basanto sull'algoritmo \textit{spring} di Fruchterman-Reingold, cioè più un nodo è distante dall'altro minori archi ci sono che collegano le due comunità.\\
 \begin{figure*}[!ht]
 \centering
